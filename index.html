@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday, Amritha! ❤️</title>
+    <meta name="description" content="A magical, colorful birthday surprise website dedicated to my wonderful girlfriend, Amritha. Countdown and interactive wishes!">
+    
+    <!-- Stylesheets & Fonts -->
+    <link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+
+    <!-- Background Twinkling Canvas Sparkles, Hearts, & Fireworks -->
+    <canvas id="canvas-sparkles"></canvas>
+
+    <!-- Animated Ambient Glow Orbs -->
+    <div class="bg-glow">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Balloon Pop Layer -->
+    <div id="balloon-layer"></div>
+
+    <!-- ==========================================================================
+       LOCK / COUNTDOWN SCREEN
+       ========================================================================== -->
+    <section id="lock-screen">
+        <!-- Floating lock screen music controls -->
+        <button class="lock-audio-toggle glass-panel" id="lock-audio-toggle" aria-label="Toggle Music">
+            <span class="music-speaker-icon">🔇</span>
+            <div class="music-indicator" id="lock-music-indicator">
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </button>
+
+        <!-- Floating Love Quote -->
+        <div class="quote-container">
+            <h2 class="love-quote" id="lock-love-quote">Counting down for my favorite girl...</h2>
+        </div>
+
+        <!-- Glass Lock Countdown Card -->
+        <div class="lock-card glass-panel">
+            <div class="lock-icon-wrapper" id="heart-trigger">
+                <div class="lock-heart">❤️</div>
+            </div>
+            
+            <h3 class="countdown-title">Unlocks in</h3>
+            
+            <!-- Countdown Grid -->
+            <div class="timer-grid">
+                <div class="timer-box">
+                    <span class="timer-num" id="days">00</span>
+                    <span class="timer-lbl">Days</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-num" id="hours">00</span>
+                    <span class="timer-lbl">Hours</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-num" id="minutes">00</span>
+                    <span class="timer-lbl">Mins</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-num" id="seconds">00</span>
+                    <span class="timer-lbl">Secs</span>
+                </div>
+            </div>
+
+            <!-- Unlock Progress Bar -->
+            <div class="unlock-progress">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+            <p class="lock-caption" id="lock-caption">Tap the heart to search for magic...</p>
+        </div>
+
+        <!-- Small Decorative Cake on Lock Screen -->
+        <div class="lock-cake-wrapper">
+            <!-- Sparkles rising from the cake -->
+            <div class="cake-sparkles-container">
+                <span class="cake-sparkle s1">✨</span>
+                <span class="cake-sparkle s2">💖</span>
+                <span class="cake-sparkle s3">✨</span>
+                <span class="cake-sparkle s4">💖</span>
+                <span class="cake-sparkle s5">✨</span>
+            </div>
+            <div class="cake-scene lock-cake">
+                <!-- Cake Stand -->
+                <div class="cake-stand"></div>
+                
+                <!-- Cake Bottom Tier -->
+                <div class="cake-tier">
+                    <!-- Cream Drips -->
+                    <div class="drip-container">
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                    </div>
+                    <div class="cake-frosting"></div>
+                    <div class="cake-name">Amritha</div>
+                </div>
+                
+                <!-- 3 Candles -->
+                <div class="candle-container">
+                    <div class="candle">
+                        <div class="wick"></div>
+                        <div class="flame"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="wick"></div>
+                        <div class="flame"></div>
+                    </div>
+                    <div class="candle">
+                        <div class="wick"></div>
+                        <div class="flame"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       MAIN EXPERIENCE / UNLOCKED APP
+       ========================================================================== -->
+    <main id="app-container">
+        
+        <!-- Roblox Proposal Animation Stage -->
+        <section class="roblox-stage-card glass-panel" aria-label="Our Roblox Love Story">
+            <h2 class="roblox-stage-title">Where We First Met... 🎮❤️</h2>
+            
+            <div class="roblox-viewport">
+                <!-- HTML Speech Bubble for perfect mobile readability -->
+                <div class="roblox-speech-bubble-html">
+                    <span class="bubble-line-1">We met in Roblox... 🎮</span>
+                    <span class="bubble-line-2">And now we're here! Happy Birthday! ❤️</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" class="roblox-svg">
+                    <!-- Definitions for Patterns and Filters -->
+                    <defs>
+                        <!-- Checkerboard Grass Pattern for Roblox Baseplate -->
+                        <pattern id="roblox-grass-checkers" width="40" height="20" patternUnits="userSpaceOnUse">
+                            <rect width="20" height="10" fill="#4ca64c" />
+                            <rect x="20" width="20" height="10" fill="#429642" />
+                            <rect y="10" width="20" height="10" fill="#429642" />
+                            <rect x="20" y="10" width="20" height="10" fill="#4ca64c" />
+                        </pattern>
+                        <!-- Sparkle Filter for the Proposing Ring -->
+                        <filter id="glow-effect" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="3" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+                    
+                    <!-- Floating Roblox Baseplate -->
+                    <g class="roblox-baseplate">
+                        <!-- Studs / Grid Top Layer (classic Roblox look) -->
+                        <rect x="100" y="190" width="600" height="15" fill="url(#roblox-grass-checkers)" rx="4" />
+                        <rect x="100" y="200" width="600" height="15" fill="#855e42" rx="4" /> <!-- Brown dirt block layer -->
+                        <line x1="100" y1="200" x2="700" y2="200" stroke="#381d0d" stroke-width="1.5" />
+                    </g>
+                    
+                    <!-- ROBLOX BOY CHARACTER (Vijay) -->
+                    <g id="roblox-boy" class="roblox-char">
+                        <!-- Shadow -->
+                        <ellipse cx="0" cy="190" rx="20" ry="5" fill="rgba(0,0,0,0.25)" />
+                        
+                        <!-- Left Leg -->
+                        <rect class="limb boy-left-leg" x="-16" y="5" width="14" height="30" fill="#228b22" rx="1" />
+                        
+                        <!-- Right Leg -->
+                        <rect class="limb boy-right-leg" x="2" y="5" width="14" height="30" fill="#228b22" rx="1" />
+                        
+                        <!-- Torso -->
+                        <rect class="boy-torso" x="-18" y="-35" width="36" height="42" fill="#1e90ff" rx="2" />
+                        <!-- White Tie / Decal on shirt -->
+                        <polygon points="-4,-35 4,-35 6,-25 0,-15 -6,-25" fill="#ffffff" />
+                        <circle cx="0" cy="-28" r="2" fill="#ff4500" />
+                        
+                        <!-- Left Arm -->
+                        <rect class="limb boy-left-arm" x="-32" y="-35" width="12" height="36" fill="#1e90ff" rx="1" />
+                        
+                        <!-- Right Arm (will hold flowers and raise) -->
+                        <g class="limb boy-right-arm-group">
+                            <rect class="boy-right-arm" x="20" y="-35" width="12" height="36" fill="#1e90ff" rx="1" />
+                            
+                            <!-- Flower bouquet held by right hand -->
+                            <g class="roblox-flowers">
+                                <!-- Stems -->
+                                <line x1="26" y1="1" x2="26" y2="15" stroke="#228b22" stroke-width="2.5" />
+                                <line x1="21" y1="3" x2="26" y2="15" stroke="#228b22" stroke-width="2.5" />
+                                <line x1="31" y1="3" x2="26" y2="15" stroke="#228b22" stroke-width="2.5" />
+                                <!-- Red Roses (Blocky circles) -->
+                                <rect x="22" y="-5" width="8" height="8" fill="#ff3366" rx="2" />
+                                <rect x="16" y="-1" width="8" height="8" fill="#e01b5d" rx="2" />
+                                <rect x="28" y="-1" width="8" height="8" fill="#ff5e84" rx="2" />
+                                <!-- Ribbon -->
+                                <polygon points="23,10 29,10 32,15 26,12 20,15" fill="#ffd60a" />
+                            </g>
+                        </g>
+                        
+                        <!-- Head Block -->
+                        <rect class="boy-head" x="-13" y="-62" width="26" height="26" fill="#ffd3b6" rx="2" />
+                        
+                        <!-- Boy Hair (Blocky cool brown hair) -->
+                        <path class="boy-hair" d="M-15,-64 L15,-64 L15,-54 L11,-54 L11,-48 L7,-48 L7,-58 L-7,-58 L-7,-48 L-11,-48 L-11,-54 L-15,-54 Z" fill="#5c3d2e" />
+                        
+                        <!-- Face (Classic Roblox Smile) -->
+                        <g class="boy-face">
+                            <!-- Eyes (Squares) -->
+                            <rect x="-7" y="-53" width="4" height="4" fill="#111111" />
+                            <rect x="3" y="-53" width="4" height="4" fill="#111111" />
+                            <!-- Smile -->
+                            <path d="M -7 -44 Q 0 -38 7 -44" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                        </g>
+                        
+                        <!-- Proposing Ring (Left hand / floats) -->
+                        <g class="propose-ring">
+                            <circle cx="-26" cy="12" r="6" stroke="#ffd60a" stroke-width="2" fill="none" filter="url(#glow-effect)" />
+                            <rect x="-28" y="4" width="4" height="4" fill="#a4e2fc" transform="rotate(45 -26 6)" />
+                        </g>
+                    </g>
+                    
+                    <!-- ROBLOX GIRL CHARACTER (Amritha) -->
+                    <g id="roblox-girl" class="roblox-char">
+                        <!-- Shadow -->
+                        <ellipse cx="0" cy="190" rx="20" ry="5" fill="rgba(0,0,0,0.25)" />
+                        
+                        <!-- Left Leg -->
+                        <rect class="limb girl-left-leg" x="-16" y="5" width="14" height="30" fill="#800080" rx="1" />
+                        
+                        <!-- Right Leg -->
+                        <rect class="limb girl-right-leg" x="2" y="5" width="14" height="30" fill="#800080" rx="1" />
+                        
+                        <!-- Torso -->
+                        <rect class="girl-torso" x="-18" y="-35" width="36" height="42" fill="#ff69b4" rx="2" />
+                        <!-- White Heart Logo on shirt -->
+                        <path d="M-4,-23 C-7,-26 -7,-20 -4,-17 L0,-13 L4,-17 C7,-20 7,-26 4,-23 Z" fill="#ffffff" />
+                        
+                        <!-- Left Arm -->
+                        <rect class="limb girl-left-arm" x="-32" y="-35" width="12" height="36" fill="#ff69b4" rx="1" />
+                        
+                        <!-- Right Arm -->
+                        <rect class="limb girl-right-arm" x="20" y="-35" width="12" height="36" fill="#ff69b4" rx="1" />
+                        
+                        <!-- Head Block -->
+                        <rect class="girl-head" x="-13" y="-62" width="26" height="26" fill="#ffd3b6" rx="2" />
+                        
+                        <!-- Girl Hair (Long cute brown hair with bangs) -->
+                        <g class="girl-hair">
+                            <!-- Top/Back Hair -->
+                            <rect x="-16" y="-66" width="32" height="22" fill="#4a2c11" rx="3" />
+                            <!-- Sides hanging down -->
+                            <rect x="-16" y="-48" width="6" height="36" fill="#4a2c11" rx="2" />
+                            <rect x="10" y="-48" width="6" height="36" fill="#4a2c11" rx="2" />
+                            <!-- Bangs -->
+                            <polygon points="-13,-56 -5,-56 -3,-51 -7,-48 -13,-48" fill="#4a2c11" />
+                            <polygon points="13,-56 5,-56 3,-51 7,-48 13,-48" fill="#4a2c11" />
+                            <!-- Cute Bow on hair -->
+                            <rect x="-5" y="-67" width="10" height="5" fill="#ffd60a" rx="1" />
+                            <polygon points="-9,-70 -3,-67 -9,-64" fill="#ff3366" />
+                            <polygon points="9,-70 3,-67 9,-64" fill="#ff3366" />
+                        </g>
+                        
+                        <!-- Face (Roblox Super Happy / Blushing Face) -->
+                        <g class="girl-face">
+                            <!-- Eyes -->
+                            <rect x="-7" y="-53" width="4" height="4" fill="#111111" />
+                            <rect x="3" y="-53" width="4" height="4" fill="#111111" />
+                            <!-- Cute Blushing Cheeks -->
+                            <rect class="girl-blush" x="-11" y="-47" width="5" height="3" fill="#ff8093" rx="1" />
+                            <rect class="girl-blush" x="6" y="-47" width="5" height="3" fill="#ff8093" rx="1" />
+                            <!-- Big Happy Smile -->
+                            <path d="M-6,-44 C-3,-41 3,-41 6,-44" stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round" />
+                        </g>
+                    </g>
+                    
+                    <!-- Shared Proposal Speech Bubble removed to HTML layer for responsiveness -->
+                    
+                    <!-- Giant Love Heart Floating between them -->
+                    <g class="roblox-love-heart">
+                        <!-- Square/Blocky Roblox-Style Heart -->
+                        <path d="M 400 110 L 415 95 L 430 95 L 430 110 L 415 125 L 400 140 L 385 125 L 370 110 L 370 95 L 385 95 Z" fill="#ff3366" stroke="#ffffff" stroke-width="1.5" filter="url(#glow-effect)" />
+                    </g>
+                </svg>
+                
+                <!-- Floating Roblox Emoji Hearts (Dom elements for independent random animation) -->
+                <div class="roblox-floating-hearts-layer">
+                    <span class="roblox-heart rh1">💖</span>
+                    <span class="roblox-heart rh2">💘</span>
+                    <span class="roblox-heart rh3">💝</span>
+                    <span class="roblox-heart rh4">💕</span>
+                    <span class="roblox-heart rh5">😍</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- App Header -->
+        <header class="app-header">
+            <h3 class="headline-quote">"Amritha, you are the best thing that has ever been mine."</h3>
+            <h1 class="birthday-title">HAPPY BIRTHDAY MY THANGAM, AMRITHA!</h1>
+            <p class="birthday-subtitle">Here is a little magic space made just for you ✨</p>
+        </header>
+
+        <!-- Main Content Cards Grid -->
+        <div class="app-grid">
+            
+            <!-- 1. Music Player Card -->
+            <section class="music-card glass-panel">
+                <div class="music-info">
+                    <div class="disc-container">
+                        <div class="disc" id="disc">
+                            <div class="disc-center"></div>
+                        </div>
+                    </div>
+                    <div class="track-meta">
+                        <h4 class="track-title" id="track-title">Melody for My Girl</h4>
+                        <p class="track-artist" id="track-artist">Virtual Music Box 🎵</p>
+                    </div>
+                </div>
+
+                <div class="music-controls">
+                    <!-- Progress Timeline -->
+                    <div class="player-bar">
+                        <div class="progress-track" id="progress-track">
+                            <div class="progress-bar-fill" id="timeline-fill"></div>
+                        </div>
+                        <div class="time-stamps">
+                            <span id="current-time">0:00</span>
+                            <span id="total-time">3:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div class="player-buttons">
+                        <button class="btn-circle btn-prev" id="prev-btn" aria-label="Previous Track">◀◀</button>
+                        <button class="btn-circle btn-play" id="play-btn" aria-label="Play Music">▶</button>
+                        <button class="btn-circle btn-next" id="next-btn" aria-label="Next Track">▶▶</button>
+                        <button class="btn-circle btn-mute" id="mute-btn" aria-label="Mute Music">🔊</button>
+                    </div>
+
+                    <!-- Simulated Visualizer Bars -->
+                    <div class="visualizer-container" id="visualizer-bars">
+                        <!-- Bars dynamically loaded by JS -->
+                    </div>
+                </div>
+
+                <!-- Hidden HTML Audio Element for custom mp3 uploads -->
+                <audio id="bg-music" src="assets/mudhal_nee.mp3" preload="auto" loop></audio>
+            </section>
+
+            <!-- 2. Interactive Birthday Cake Card -->
+            <section class="cake-card glass-panel">
+                <h4 class="cake-instruction" id="cake-instruction">Tap the candles to blow them out! 💨</h4>
+                
+                <div class="cake-scene" id="cake-scene">
+                    <!-- Cake Stand -->
+                    <div class="cake-stand"></div>
+                    
+                    <!-- Cake Bottom Tier -->
+                    <div class="cake-tier">
+                        <!-- Cream Drips -->
+                        <div class="drip-container">
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                            <div class="drip"></div>
+                        </div>
+                        <div class="cake-frosting"></div>
+                        <div class="cake-name">Amritha</div>
+                    </div>
+                    
+                    <!-- 3 Candles -->
+                    <div class="candle-container">
+                        <div class="candle">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                        </div>
+                        <div class="candle">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                        </div>
+                        <div class="candle">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Personalized Greeting Box -->
+            <section class="greeting-card glass-panel">
+                <div class="decor-heart">💖</div>
+                <div class="envelope-decor">✉️</div>
+                <h3 class="message-title">To My Beautiful Amritha,</h3>
+                <p class="message-body">
+                    Happy Birthday, Amritha! Words cannot describe how much you mean to me. You bring endless joy, laughter, and color into my life. Every single moment spent with you is a treasure, and I am so grateful to walk by your side. May this year bring you all the happiness, magic, and success that you deserve. I love you more than words can say. 💕
+                </p>
+                <div class="signature">Yours Forever, Vijay ❤️</div>
+            </section>
+
+            <!-- 4. Memory Lane 3D Deck -->
+            <section class="memories-section">
+                <h3 class="memories-title">Our Little Memory Lane (Tap to flip)</h3>
+                
+                <div class="memory-deck">
+                    <!-- Card 1 -->
+                    <div class="memory-card">
+                        <div class="memory-card-side memory-card-front">
+                            <div class="card-icon">✨</div>
+                            <h4 class="card-title">How We Met</h4>
+                            <p class="card-instruction">Tap to open</p>
+                        </div>
+                        <div class="memory-card-side memory-card-back">
+                            <h4 class="card-quote">"The Day Everything Changed"</h4>
+                            <p class="card-desc">The moment my eyes met yours, Amritha, I knew my life would never be the same. You instantly brightened my world, and my life has been a beautiful color gradient ever since. ❤️</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="memory-card">
+                        <div class="memory-card-side memory-card-front">
+                            <div class="card-icon">👑</div>
+                            <h4 class="card-title">My Favorite Thing</h4>
+                            <p class="card-instruction">Tap to open</p>
+                        </div>
+                        <div class="memory-card-side memory-card-back">
+                            <h4 class="card-quote">"Amritha's Laugh"</h4>
+                            <p class="card-desc">Hearing you laugh is my absolute favorite sound in the universe. It makes all my worries melt away in an instant, Amritha. 🥰</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="memory-card">
+                        <div class="memory-card-side memory-card-front">
+                            <div class="card-icon">♾️</div>
+                            <h4 class="card-title">A Promise</h4>
+                            <p class="card-instruction">Tap to open</p>
+                        </div>
+                        <div class="memory-card-side memory-card-back">
+                            <h4 class="card-quote">"Always & Forever"</h4>
+                            <p class="card-desc">I promise to support your dreams, comfort you on difficult days, and love you unconditionally through every chapter of our lives together, Amritha. 🌹</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Made with love <span class="footer-heart">❤️</span> for Amritha | Infinity & Beyond</p>
+        </footer>
+
+    </main>
+
+    <!-- Canvas Confetti Library via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Custom Page Script -->
+    <script src="script.js?v=10"></script>
+</body>
+</html>

@@ -1,0 +1,1839 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@300;400;600;800&family=Quicksand:wght@400;600;700&family=Pacifico&display=swap');
+
+:root {
+    --bg-primary: #080314;
+    --color-pink: hsl(340, 95%, 65%);
+    --color-pink-glow: hsl(340, 95%, 50%);
+    --color-purple: hsl(270, 85%, 55%);
+    --color-purple-glow: hsl(270, 85%, 40%);
+    --color-gold: hsl(42, 100%, 62%);
+    --color-gold-glow: hsl(42, 100%, 50%);
+    --color-teal: hsl(180, 85%, 60%);
+    --text-main: #fbf8fe;
+    --text-muted: #c4b6c8;
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --font-header: 'Outfit', sans-serif;
+    --font-body: 'Quicksand', sans-serif;
+    --font-handwritten: 'Caveat', cursive;
+    --transition-smooth: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background animated glow orbs */
+.bg-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    animation: orb-move 20s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, var(--color-pink-glow) 0%, transparent 70%);
+    top: -10%;
+    left: -10%;
+    animation-duration: 25s;
+}
+
+.orb-2 {
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, var(--color-purple-glow) 0%, transparent 70%);
+    bottom: -20%;
+    right: -10%;
+    animation-duration: 30s;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 40vw;
+    height: 40vw;
+    background: radial-gradient(circle, var(--color-gold-glow) 0%, transparent 70%);
+    top: 40%;
+    left: 30%;
+    animation-duration: 22s;
+    animation-delay: -10s;
+    opacity: 0.25;
+}
+
+/* Sparkles, Falling Hearts & Fireworks Overlay Canvas */
+#canvas-sparkles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none; /* pointer tracking is handled globally on window */
+}
+
+/* Utility Glassmorphism Class */
+.glass-panel {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 var(--glass-highlight);
+    padding: 30px;
+    transition: var(--transition-smooth);
+}
+
+.glass-panel:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   LOCK / COUNTDOWN SCREEN
+   ========================================================================== */
+
+#lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    padding: 20px;
+    transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.8s ease;
+}
+
+#lock-screen.unlocked {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Floating Lock Mute Controller */
+.lock-audio-toggle {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    color: var(--text-main);
+    transition: var(--transition-smooth);
+}
+
+.lock-audio-toggle:hover {
+    transform: scale(1.1);
+    border-color: var(--color-pink);
+    box-shadow: 0 0 15px rgba(255, 51, 102, 0.2);
+}
+
+.music-speaker-icon {
+    font-size: 1.3rem;
+}
+
+/* Animated sound wave bars for floating mute controller */
+.music-indicator {
+    display: flex;
+    align-items: flex-end;
+    gap: 2.5px;
+    height: 14px;
+    position: absolute;
+    bottom: 10px;
+}
+
+.music-indicator span {
+    width: 2px;
+    height: 2px;
+    background-color: var(--color-pink);
+    border-radius: 1px;
+    transition: height 0.2s ease;
+}
+
+.music-indicator.playing span {
+    animation: bounceBar 0.8s infinite alternate ease-in-out;
+}
+
+.music-indicator.playing span:nth-child(2) { animation-delay: -0.2s; }
+.music-indicator.playing span:nth-child(3) { animation-delay: -0.4s; }
+.music-indicator.playing span:nth-child(4) { animation-delay: -0.6s; }
+
+/* Floating lock quote */
+.quote-container {
+    max-width: 600px;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.love-quote {
+    font-family: var(--font-handwritten);
+    font-size: 2.2rem;
+    color: var(--color-pink);
+    text-shadow: 0 0 20px rgba(255, 51, 102, 0.35);
+    line-height: 1.3;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUpQuote 1s forwards ease-out 0.5s;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.lock-card {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.lock-icon-wrapper {
+    margin-bottom: 15px;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+.lock-heart {
+    font-size: 3.5rem;
+    color: var(--color-pink);
+    filter: drop-shadow(0 0 15px var(--color-pink-glow));
+    animation: heart-beat 1.2s infinite ease-in-out;
+    transition: var(--transition-smooth);
+}
+
+.lock-icon-wrapper:hover .lock-heart {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 25px var(--color-pink-glow));
+}
+
+.lock-heart.clicking,
+.lock-cake.clicking {
+    animation: heart-shake 0.3s ease-in-out;
+}
+
+.countdown-title {
+    font-family: var(--font-header);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.amritha-title-glow {
+    font-family: var(--font-header);
+    font-weight: 800;
+    font-size: 2.6rem;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, #fff 10%, var(--color-pink) 50%, var(--color-purple) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 51, 102, 0.3));
+    letter-spacing: 1px;
+}
+
+.timer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.timer-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.timer-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent);
+    border-radius: 16px 16px 0 0;
+    pointer-events: none;
+}
+
+.timer-num {
+    font-family: var(--font-header);
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, var(--color-pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 12px rgba(255, 51, 102, 0.1);
+}
+
+.timer-lbl {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.unlock-progress {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-purple), var(--color-pink));
+    box-shadow: 0 0 10px var(--color-pink-glow);
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lock-caption {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Lock Screen Cake Styling */
+.lock-cake-wrapper {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    pointer-events: auto; /* Make it interactive */
+    cursor: pointer;
+    animation: lockCakeFloat 4s ease-in-out infinite alternate;
+    transition: transform 0.3s ease;
+}
+
+.lock-cake-wrapper:hover {
+    transform: scale(1.08);
+}
+
+.lock-cake-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255, 51, 102, 0.2) 0%, rgba(142, 68, 173, 0.05) 50%, transparent 70%);
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: lockCakeGlow 3s ease-in-out infinite alternate;
+}
+
+.lock-cake {
+    transform: scale(0.65);
+    transform-origin: center bottom;
+    margin: 0;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+    transition: var(--transition-smooth);
+}
+
+/* Cake name design on bottom tier */
+.cake-name {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.15rem;
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 51, 102, 0.8), 
+                 0 0 10px var(--color-pink-glow),
+                 0 0 15px rgba(255, 255, 255, 0.3);
+    z-index: 10;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+    animation: cakeNamePulse 2.5s infinite ease-in-out alternate;
+    user-select: none;
+}
+
+/* Sparkles rising from the lock cake */
+.cake-sparkles-container {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 15;
+    overflow: visible;
+}
+
+.cake-sparkle {
+    position: absolute;
+    font-size: 0.9rem;
+    opacity: 0;
+    animation: cakeSparkleRise 3.5s infinite linear;
+}
+
+.cake-sparkle.s1 { --sparkle-dx: -15px; left: 20%; animation-delay: 0s; color: var(--color-gold); }
+.cake-sparkle.s2 { --sparkle-dx: 10px; left: 35%; animation-delay: 0.7s; color: var(--color-pink); font-size: 0.7rem; }
+.cake-sparkle.s3 { --sparkle-dx: -5px; left: 50%; animation-delay: 1.4s; color: var(--color-teal); }
+.cake-sparkle.s4 { --sparkle-dx: 15px; left: 65%; animation-delay: 2.1s; color: var(--color-pink); font-size: 0.7rem; }
+.cake-sparkle.s5 { --sparkle-dx: -10px; left: 80%; animation-delay: 2.8s; color: var(--color-gold); }
+
+/* Animation Keyframes */
+@keyframes lockCakeFloat {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes lockCakeGlow {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.15);
+        opacity: 0.95;
+    }
+}
+
+@keyframes cakeNamePulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.8), 0 0 8px var(--color-pink-glow);
+    }
+    100% {
+        transform: scale(1.06);
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.95), 0 0 16px var(--color-purple-glow), 0 0 20px var(--color-pink-glow);
+    }
+}
+
+@keyframes cakeSparkleRise {
+    0% {
+        transform: translateY(110px) translateX(0) scale(0.4) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    80% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(-40px) translateX(var(--sparkle-dx, 20px)) scale(1.1) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+
+/* ==========================================================================
+   MAIN EXPERIENCE / UNLOCKED APP
+   ========================================================================== */
+
+#app-container {
+    opacity: 0;
+    transform: scale(0.96);
+    width: 100%;
+    max-width: 1200px;
+    padding: 80px 20px 40px 20px;
+    z-index: 10;
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    display: none;
+}
+
+#app-container.visible {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Floating elements container */
+#balloon-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.balloon {
+    position: absolute;
+    bottom: -150px;
+    width: 65px;
+    height: 80px;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    pointer-events: auto;
+    cursor: pointer;
+    box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.2), 
+                inset 6px 6px 16px rgba(255, 255, 255, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.15);
+    animation: floatUp 15s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.balloon::after {
+    content: "▲";
+    font-size: 10px;
+    color: inherit;
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.balloon-string {
+    position: absolute;
+    width: 1px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.3);
+    bottom: -87px;
+    left: 50%;
+}
+
+.balloon-text {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    user-select: none;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* Floating hearts/stars particle generator */
+.floating-heart {
+    position: absolute;
+    pointer-events: none;
+    color: var(--color-pink);
+    font-size: 1.5rem;
+    animation: floatHeart 6s linear forwards;
+    z-index: 4;
+}
+
+/* App Header Section */
+.app-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.headline-quote {
+    font-family: var(--font-handwritten);
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    text-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+    margin-bottom: 15px;
+    animation: quotePulse 4s infinite ease-in-out;
+}
+
+.birthday-title {
+    font-family: var(--font-header);
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 20%, var(--color-pink) 50%, var(--color-purple) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(255, 51, 102, 0.25);
+    margin-bottom: 10px;
+}
+
+.birthday-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+/* App Grid Layout */
+.app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+/* Custom Interactive Music Player Card */
+.music-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.music-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.disc-container {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #2d243a 0%, #150f24 40%, #000 80%);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 0 0 2px var(--glass-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disc {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, transparent 25%, #2a2a2a 26%, #2a2a2a 28%, #1f1f1f 29%, #121212 70%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease;
+}
+
+.disc-center {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-pink), var(--color-purple));
+    border: 3px solid #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disc-center::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--bg-primary);
+}
+
+.disc.playing {
+    animation: rotateDisc 4s linear infinite;
+}
+
+.track-meta {
+    flex: 1;
+}
+
+.track-title {
+    font-family: var(--font-header);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.track-artist {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.music-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.player-bar {
+    width: 100%;
+}
+
+.progress-track {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--color-pink);
+    border-radius: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.1s linear;
+}
+
+.time-stamps {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+}
+
+.player-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+}
+
+.btn-circle:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--color-pink);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 51, 102, 0.25);
+}
+
+.btn-circle.btn-play {
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, var(--color-pink), var(--color-purple));
+    color: white;
+    font-size: 1.3rem;
+    box-shadow: 0 8px 24px rgba(255, 51, 102, 0.3);
+    border: none;
+}
+
+.btn-circle.btn-play:hover {
+    transform: scale(1.12);
+    box-shadow: 0 8px 30px rgba(255, 51, 102, 0.5);
+}
+
+/* Audio Visualizer Waves */
+.visualizer-container {
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    margin-top: 15px;
+}
+
+.visualizer-bar {
+    width: 4px;
+    height: 5px;
+    background-color: var(--color-purple);
+    border-radius: 2px;
+    transition: height 0.1s ease;
+}
+
+/* Interactive Birthday Cake Card */
+.cake-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cake-instruction {
+    font-size: 0.95rem;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.cake-scene {
+    width: 200px;
+    height: 180px;
+    position: relative;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* CSS Drawn Birthday Cake */
+.cake-stand {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    width: 180px;
+    height: 10px;
+    background-color: var(--text-main);
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.cake-stand::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 70px;
+    width: 40px;
+    height: 15px;
+    background-color: #e0d0e6;
+    border-radius: 0 0 5px 5px;
+}
+
+.cake-tier {
+    position: absolute;
+    left: 25px;
+    width: 150px;
+    height: 70px;
+    background: linear-gradient(to right, #723c8a, #c069db, #723c8a);
+    border-radius: 12px 12px 0 0;
+    bottom: 15px;
+    overflow: hidden;
+    border-bottom: 4px solid #4a1e5c;
+}
+
+/* Cake Drips */
+.drip-container {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.drip {
+    background-color: var(--color-pink);
+    width: 15px;
+    height: 12px;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+}
+
+.drip:nth-child(even) {
+    height: 20px;
+    background-color: hsl(340, 90%, 58%);
+}
+
+.cake-frosting {
+    position: absolute;
+    width: 150px;
+    height: 15px;
+    background-color: var(--color-pink);
+    top: 0;
+    left: 0;
+    border-radius: 8px 8px 0 0;
+}
+
+.candle-container {
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    width: 100px;
+    bottom: 85px;
+    left: 50px;
+}
+
+.candle {
+    position: relative;
+    width: 10px;
+    height: 35px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--color-teal),
+        var(--color-teal) 4px,
+        #fff 4px,
+        #fff 8px
+    );
+    border-radius: 3px 3px 0 0;
+}
+
+.candle:nth-child(2) {
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--color-gold),
+        var(--color-gold) 4px,
+        #fff 4px,
+        #fff 8px
+    );
+}
+
+.candle:nth-child(3) {
+    background: repeating-linear-gradient(
+        45deg,
+        var(--color-pink),
+        var(--color-pink) 4px,
+        #fff 4px,
+        #fff 8px
+    );
+}
+
+.wick {
+    position: absolute;
+    top: -6px;
+    left: 4px;
+    width: 2px;
+    height: 6px;
+    background-color: #333;
+}
+
+.flame {
+    position: absolute;
+    top: -20px;
+    left: 1px;
+    width: 8px;
+    height: 15px;
+    background: linear-gradient(to bottom, #ffea4a 0%, #ff8000 60%, #cc0000 100%);
+    border-radius: 50% 50% 20% 20% / 70% 70% 30% 30%;
+    filter: drop-shadow(0 0 6px rgba(255, 128, 0, 0.8));
+    animation: flicker 1s infinite alternate ease-in-out;
+    transform-origin: center bottom;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.flame.blown-out {
+    opacity: 0;
+    transform: scale(0);
+}
+
+/* Personalized Greeting Box */
+.greeting-card {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 40px;
+}
+
+.decor-heart {
+    position: absolute;
+    top: -20px;
+    font-size: 2.2rem;
+    color: var(--color-pink);
+    filter: drop-shadow(0 0 10px var(--color-pink-glow));
+    animation: heart-beat 1.5s infinite ease-in-out;
+}
+
+.envelope-decor {
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    margin-bottom: 15px;
+}
+
+.message-title {
+    font-family: var(--font-header);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-pink);
+}
+
+.message-body {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    max-width: 800px;
+    color: var(--text-main);
+    margin-bottom: 25px;
+    min-height: 100px;
+}
+
+.signature {
+    font-family: var(--font-handwritten);
+    font-size: 2.2rem;
+    color: var(--color-gold);
+    margin-top: 10px;
+}
+
+/* Memory Lane 3D Deck Section */
+.memories-section {
+    grid-column: span 2;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.memories-title {
+    font-family: var(--font-header);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, var(--color-pink), var(--color-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 3D Card Deck */
+.memory-deck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    perspective: 1000px;
+    padding: 20px 0;
+}
+
+.memory-card {
+    width: 250px;
+    height: 340px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.memory-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.memory-card-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.memory-card-front {
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.memory-card-front::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+.memory-card-back {
+    background: linear-gradient(135deg, #1c0e2a 0%, #100619 100%);
+    border: 1.5px solid var(--color-pink);
+    transform: rotateY(180deg);
+    text-align: center;
+}
+
+.card-icon {
+    font-size: 2.8rem;
+    color: var(--color-pink);
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.3));
+    animation: heart-beat 2s infinite ease-in-out;
+}
+
+.memory-card:nth-child(2) .card-icon {
+    color: var(--color-gold);
+    filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.3));
+}
+
+.memory-card:nth-child(3) .card-icon {
+    color: var(--color-teal);
+    filter: drop-shadow(0 0 10px rgba(26, 188, 156, 0.3));
+}
+
+.card-title {
+    font-family: var(--font-header);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    color: var(--text-main);
+}
+
+.card-instruction {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+    letter-spacing: 0.5px;
+}
+
+.card-quote {
+    font-family: var(--font-handwritten);
+    font-size: 1.8rem;
+    color: var(--color-gold);
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.card-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* Footer Section */
+.app-footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 30px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+.footer-heart {
+    color: var(--color-pink);
+    animation: heart-beat 1.5s infinite;
+    display: inline-block;
+}
+
+/* ==========================================================================
+   ANIMATIONS KEYFRAMES
+   ========================================================================== */
+
+@keyframes orb-move {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(10vw, -10vh) scale(1.1); }
+    100% { transform: translate(-5vw, 15vh) scale(0.9); }
+}
+
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes heart-shake {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    20%, 60% { transform: scale(1.15) rotate(-8deg); }
+    40%, 80% { transform: scale(1.15) rotate(8deg); }
+}
+
+@keyframes rotateDisc {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes flicker {
+    0% { transform: scale(1) rotate(-1deg); filter: drop-shadow(0 0 6px rgba(255,128,0,0.8)); }
+    50% { transform: scale(1.05) rotate(1deg); filter: drop-shadow(0 0 10px rgba(255,160,0,0.9)); }
+    100% { transform: scale(0.95) rotate(-0.5deg); filter: drop-shadow(0 0 5px rgba(255,100,0,0.7)); }
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.85;
+    }
+    90% {
+        opacity: 0.85;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(var(--dx, 50px), -300px) scale(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInUpQuote {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes quotePulse {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.03); }
+}
+
+@keyframes bounceBar {
+    from { height: 2px; }
+    to { height: 16px; }
+}
+
+
+/* ==========================================================================
+   MEDIA QUERIES (MOBILE & TABLET RESPONSIVENESS)
+   ========================================================================== */
+
+/* Tablets and small screens (Portrait) */
+@media (max-width: 900px) {
+    .app-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .greeting-card {
+        grid-column: span 1;
+        padding: 30px 20px;
+    }
+
+    .memories-section {
+        grid-column: span 1;
+    }
+
+    .birthday-title {
+        font-size: 2.8rem;
+    }
+
+    .headline-quote {
+        font-size: 2.1rem;
+    }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+    .lock-cake-wrapper {
+        margin-top: 15px;
+    }
+
+    .lock-cake {
+        transform: scale(0.5);
+    }
+
+    .quote-container {
+        margin-bottom: 20px;
+        height: 70px;
+    }
+
+    .lock-audio-toggle {
+        top: 15px;
+        right: 15px;
+        width: 46px;
+        height: 46px;
+    }
+
+    .music-speaker-icon {
+        font-size: 1.15rem;
+    }
+
+    .music-indicator {
+        bottom: 7px;
+        height: 10px;
+    }
+
+    .timer-grid {
+        gap: 8px;
+    }
+    
+    .timer-box {
+        padding: 10px 5px;
+        border-radius: 12px;
+    }
+    
+    .timer-num {
+        font-size: 1.5rem;
+    }
+    
+    .timer-lbl {
+        font-size: 0.6rem;
+        letter-spacing: 0.5px;
+    }
+
+    .love-quote {
+        font-size: 1.7rem;
+    }
+
+    .amritha-title-glow {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+
+    .birthday-title {
+        font-size: 2.2rem;
+    }
+
+    .birthday-subtitle {
+        font-size: 1rem;
+    }
+
+    .music-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .disc-container {
+        width: 100px;
+        height: 100px;
+    }
+
+    .disc {
+        width: 90px;
+        height: 90px;
+    }
+
+    .memory-deck {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .memory-card {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .glass-panel {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    
+    .btn-circle {
+        width: 42px;
+        height: 42px;
+        font-size: 0.9rem;
+    }
+
+    .btn-circle.btn-play {
+        width: 54px;
+        height: 54px;
+        font-size: 1.2rem;
+    }
+}
+
+/* ==========================================================================
+   ROBLOX CHARACTER PROPOSAL STAGE
+   ========================================================================== */
+
+.roblox-stage-card {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    text-align: center;
+}
+
+.roblox-stage-title {
+    font-family: var(--font-header);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, var(--color-pink), var(--color-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(255, 51, 102, 0.25);
+    letter-spacing: 0.5px;
+}
+
+.roblox-viewport {
+    width: 100%;
+    max-width: 800px;
+    aspect-ratio: 800 / 240;
+    height: auto;
+    position: relative;
+    overflow: visible;
+}
+
+.roblox-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Character Base Settings */
+.roblox-char {
+    transform-box: fill-box;
+}
+
+.limb {
+    transform-box: fill-box;
+    transform-origin: 50% 0%; /* pivots at the joint top */
+    transition: transform 0.1s linear;
+}
+
+.boy-torso, .girl-torso {
+    transform-box: fill-box;
+    transform-origin: 50% 100%; /* bends at waist */
+}
+
+.boy-head, .girl-head {
+    transform-box: fill-box;
+    transform-origin: 50% 100%; /* pivots at neck */
+}
+
+.boy-face, .girl-face, .boy-hair, .girl-hair {
+    transform-box: fill-box;
+}
+
+/* Master Timeline Animation (15s Loop) */
+
+#roblox-boy {
+    animation: roblox-boy-sequence 15s infinite ease-in-out;
+}
+
+#roblox-girl {
+    animation: roblox-girl-sequence 15s infinite ease-in-out;
+}
+
+/* Limbs Anim Synced to Walk */
+
+/* Boy Limbs Walk cycles */
+#roblox-boy .boy-left-leg {
+    animation: walk-swing-left 15s infinite linear;
+}
+#roblox-boy .boy-right-leg {
+    animation: walk-swing-right 15s infinite linear;
+}
+#roblox-boy .boy-left-arm {
+    animation: walk-swing-left 15s infinite linear;
+}
+#roblox-boy .boy-right-arm-group {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: boy-right-arm-sequence 15s infinite linear;
+}
+
+/* Girl Limbs Walk cycles */
+#roblox-girl .girl-left-leg {
+    animation: walk-swing-left 15s infinite linear;
+}
+#roblox-girl .girl-right-leg {
+    animation: walk-swing-right 15s infinite linear;
+}
+#roblox-girl .girl-left-arm {
+    animation: walk-swing-right 15s infinite linear;
+}
+#roblox-girl .girl-right-arm {
+    animation: walk-swing-left 15s infinite linear;
+}
+
+/* Torso Bob during walking */
+#roblox-boy .boy-torso, #roblox-boy .boy-head {
+    animation: walk-bob 15s infinite linear;
+}
+#roblox-girl .girl-torso, #roblox-girl .girl-head {
+    animation: walk-bob 15s infinite linear;
+}
+
+/* HTML Speech Bubble for Responsive Text */
+.roblox-speech-bubble-html {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: rgba(8, 3, 20, 0.95);
+    border: 1.5px solid var(--color-pink);
+    border-radius: 12px;
+    padding: 8px 12px;
+    z-index: 10;
+    pointer-events: none;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(255, 51, 102, 0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+    width: max-content;
+    max-width: 85%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transform-origin: bottom center;
+    animation: speech-bubble-html-sequence 15s infinite ease-in-out;
+}
+
+/* Speech bubble pointers (3D blocky look) */
+.roblox-speech-bubble-html::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(8, 3, 20, 0.95);
+}
+
+.roblox-speech-bubble-html::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid var(--color-pink);
+    z-index: -1;
+}
+
+.bubble-line-1 {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+}
+
+.bubble-line-2 {
+    color: var(--color-pink);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+}
+
+/* Love Heart Animation */
+.roblox-love-heart {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: love-heart-sequence 15s infinite ease-in-out;
+}
+
+/* Ring Animation */
+.propose-ring {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: propose-ring-sequence 15s infinite ease-in-out;
+}
+
+/* Flowers Animation */
+.roblox-flowers {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: roblox-flowers-sequence 15s infinite ease-in-out;
+}
+
+/* Girl Blush Animation */
+.girl-blush {
+    animation: girl-blush-sequence 15s infinite ease-in-out;
+}
+
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS (15s Loop)
+   ========================================================================== */
+
+/* 1. Walk bob (up/down bounce) */
+@keyframes walk-bob {
+    /* 0% to 25%: Walking */
+    0%   { transform: translateY(0); }
+    3.1% { transform: translateY(-3px); }
+    6.2% { transform: translateY(0); }
+    9.3% { transform: translateY(-3px); }
+    12.4% { transform: translateY(0); }
+    15.5% { transform: translateY(-3px); }
+    18.6% { transform: translateY(0); }
+    21.7% { transform: translateY(-3px); }
+    25%  { transform: translateY(0); }
+    /* After 25%: Standing or proposing (no bob) */
+    100% { transform: translateY(0); }
+}
+
+/* 2. Walk Swing Cycles (limbs rotate) */
+@keyframes walk-swing-left {
+    /* 0% to 25%: Walk Swing */
+    0%   { transform: rotate(0deg); }
+    3.1% { transform: rotate(28deg); }
+    6.2% { transform: rotate(0deg); }
+    9.3% { transform: rotate(-28deg); }
+    12.4% { transform: rotate(0deg); }
+    15.5% { transform: rotate(28deg); }
+    18.6% { transform: rotate(0deg); }
+    21.7% { transform: rotate(-28deg); }
+    25%  { transform: rotate(0deg); }
+    /* Rest of timeline: neutral */
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes walk-swing-right {
+    /* 0% to 25%: Walk Swing Opposite */
+    0%   { transform: rotate(0deg); }
+    3.1% { transform: rotate(-28deg); }
+    6.2% { transform: rotate(0deg); }
+    9.3% { transform: rotate(28deg); }
+    12.4% { transform: rotate(0deg); }
+    15.5% { transform: rotate(-28deg); }
+    18.6% { transform: rotate(0deg); }
+    21.7% { transform: rotate(28deg); }
+    25%  { transform: rotate(0deg); }
+    /* Rest of timeline: neutral */
+    100% { transform: rotate(0deg); }
+}
+
+/* 3. Boy Root Horizontal Movement & Proposal Sequence */
+@keyframes roblox-boy-sequence {
+    /* Walk from x=150 to x=320 (0% to 25%) */
+    0%   { transform: translateX(130px) scale(1); }
+    25%  { transform: translateX(315px) scale(1); } /* stops */
+    28%  { transform: translateX(315px) scale(1); }
+    
+    /* Kneel down to propose (30% to 75%) */
+    30%  { transform: translateX(315px) translateY(12px) scale(1); } /* kneels down */
+    75%  { transform: translateX(315px) translateY(12px) scale(1); }
+    
+    /* Stand back up (75% to 90%) */
+    78%  { transform: translateX(315px) translateY(0) scale(1); } /* stand up */
+    90%  { transform: translateX(315px) translateY(0) scale(1); }
+    
+    /* Walk off / Fade out (90% to 100%) */
+    95%  { transform: translateX(315px) scale(1); opacity: 1; }
+    100% { transform: translateX(130px) scale(1); opacity: 0; }
+}
+
+/* 4. Boy Right Arm (holds flowers, raises during proposal) */
+@keyframes boy-right-arm-sequence {
+    /* Walk Swing (0% to 25%) */
+    0%   { transform: rotate(0deg); }
+    3.1% { transform: rotate(-28deg); }
+    6.2% { transform: rotate(0deg); }
+    9.3% { transform: rotate(28deg); }
+    12.4% { transform: rotate(0deg); }
+    15.5% { transform: rotate(-28deg); }
+    18.6% { transform: rotate(0deg); }
+    21.7% { transform: rotate(28deg); }
+    25%  { transform: rotate(0deg); }
+    
+    /* Raise Arm to Propose Flowers (30% to 75%) */
+    30%  { transform: rotate(-105deg); }
+    75%  { transform: rotate(-105deg); }
+    
+    /* Return to side (75% to 100%) */
+    78%  { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* 5. Flowers Reveal */
+@keyframes roblox-flowers-sequence {
+    0%   { opacity: 0; transform: scale(0); }
+    28%  { opacity: 0; transform: scale(0); }
+    32%  { opacity: 1; transform: scale(1.1); }
+    35%  { opacity: 1; transform: scale(1); }
+    75%  { opacity: 1; transform: scale(1); }
+    78%  { opacity: 0; transform: scale(0); }
+    100% { opacity: 0; transform: scale(0); }
+}
+
+/* 6. Ring Reveal & Glow */
+@keyframes propose-ring-sequence {
+    0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+    30%  { opacity: 0; transform: scale(0) rotate(0deg); }
+    35%  { opacity: 1; transform: scale(1) rotate(15deg); }
+    55%  { opacity: 1; transform: scale(1) rotate(-15deg); }
+    70%  { opacity: 1; transform: scale(1.1) rotate(15deg); }
+    75%  { opacity: 0; transform: scale(0); }
+    100% { opacity: 0; transform: scale(0); }
+}
+
+/* 7. Girl Root Horizontal Movement & Jump Reaction Sequence */
+@keyframes roblox-girl-sequence {
+    /* Walk from x=650 to x=440 (0% to 25%) */
+    0%   { transform: translateX(650px) scaleX(-1); } /* Flipped facing left */
+    25%  { transform: translateX(440px) scaleX(-1); } /* stops */
+    28%  { transform: translateX(440px) scaleX(-1); }
+    
+    /* Stand still (28% to 50%) */
+    50%  { transform: translateX(440px) scaleX(-1) translateY(0); }
+    
+    /* Jump happily in excitement (50% to 75%) */
+    52%  { transform: translateX(440px) scaleX(-1) translateY(-18px); }
+    54%  { transform: translateX(440px) scaleX(-1) translateY(0); }
+    56%  { transform: translateX(440px) scaleX(-1) translateY(-18px); }
+    58%  { transform: translateX(440px) scaleX(-1) translateY(0); }
+    60%  { transform: translateX(440px) scaleX(-1) translateY(-18px); }
+    62%  { transform: translateX(440px) scaleX(-1) translateY(0); }
+    75%  { transform: translateX(440px) scaleX(-1) translateY(0); }
+    
+    /* Hold hands (75% to 90%) */
+    90%  { transform: translateX(440px) scaleX(-1) translateY(0); }
+    
+    /* Walk off / Fade out (90% to 100%) */
+    95%  { transform: translateX(440px) scaleX(-1); opacity: 1; }
+    100% { transform: translateX(650px) scaleX(-1); opacity: 0; }
+}
+
+/* 8. Girl Blush Reveal */
+@keyframes girl-blush-sequence {
+    0%   { opacity: 0; }
+    35%  { opacity: 0; }
+    40%  { opacity: 0.85; }
+    90%  { opacity: 0.85; }
+    92%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* 9. Speech Bubble Sequence (Syncs translateX(-50%)) */
+@keyframes speech-bubble-html-sequence {
+    0%   { opacity: 0; transform: translateX(-50%) scale(0); }
+    38%  { opacity: 0; transform: translateX(-50%) scale(0); }
+    42%  { opacity: 1; transform: translateX(-50%) scale(1.05); }
+    45%  { opacity: 1; transform: translateX(-50%) scale(1); }
+    72%  { opacity: 1; transform: translateX(-50%) scale(1); }
+    75%  { opacity: 0; transform: translateX(-50%) scale(0); }
+    100% { opacity: 0; transform: translateX(-50%) scale(0); }
+}
+
+/* 10. Love Heart sequence */
+@keyframes love-heart-sequence {
+    0%   { opacity: 0; transform: scale(0); }
+    45%  { opacity: 0; transform: scale(0); }
+    50%  { opacity: 1; transform: scale(1.2); }
+    /* Heart beating */
+    54%  { transform: scale(1); }
+    58%  { transform: scale(1.25); }
+    62%  { transform: scale(1); }
+    66%  { transform: scale(1.25); }
+    70%  { transform: scale(1); }
+    85%  { opacity: 1; transform: scale(1); }
+    90%  { opacity: 0; transform: scale(0); }
+    100% { opacity: 0; transform: scale(0); }
+}
+
+/* 11. Floating Emoji Hearts (CSS layer) */
+.roblox-floating-hearts-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.roblox-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: roblox-float-heart 4s infinite ease-out;
+}
+
+.roblox-heart.rh1 { left: 45%; animation-delay: 5s; }
+.roblox-heart.rh2 { left: 52%; animation-delay: 6s; }
+.roblox-heart.rh3 { left: 48%; animation-delay: 7s; }
+.roblox-heart.rh4 { left: 42%; animation-delay: 8s; }
+.roblox-heart.rh5 { left: 55%; animation-delay: 6.5s; }
+
+@keyframes roblox-float-heart {
+    0% {
+        transform: translateY(140px) scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    90% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(20px) translateX(var(--rh-dx, 20px)) scale(1.2) rotate(35deg);
+        opacity: 0;
+    }
+}
+
+.roblox-heart.rh1 { --rh-dx: -30px; }
+.roblox-heart.rh2 { --rh-dx: 40px; }
+.roblox-heart.rh3 { --rh-dx: -15px; }
+.roblox-heart.rh4 { --rh-dx: 25px; }
+.roblox-heart.rh5 { --rh-dx: 50px; }
+
+/* Responsive adjustments for Roblox Stage */
+@media (max-width: 900px) {
+    .roblox-stage-card {
+        grid-column: span 1;
+        padding: 20px;
+    }
+    .roblox-stage-title {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .roblox-stage-title {
+        font-size: 1.15rem;
+        margin-bottom: 8px;
+    }
+    .roblox-stage-card {
+        padding: 12px;
+        border-radius: 16px;
+    }
+    .bubble-line-1 {
+        font-size: 0.72rem;
+    }
+    .bubble-line-2 {
+        font-size: 0.65rem;
+    }
+    .roblox-speech-bubble-html {
+        padding: 5px 8px;
+        top: 2%;
+    }
+}
+
