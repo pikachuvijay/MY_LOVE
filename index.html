@@ -7,7 +7,7 @@
     <meta name="description" content="A magical, colorful birthday surprise website dedicated to my wonderful girlfriend, Amritha. Countdown and interactive wishes!">
     
     <!-- Stylesheets & Fonts -->
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -133,166 +133,231 @@
        ========================================================================== -->
     <main id="app-container">
         
-        <!-- Roblox Proposal Animation Stage -->
+        <!-- Roblox Scene - Where We First Met -->
         <section class="roblox-stage-card glass-panel" aria-label="Our Roblox Love Story">
-            <h2 class="roblox-stage-title">Where We First Met... 🎮❤️</h2>
-            
+            <h2 class="roblox-stage-title">
+                
+                Where We First Met&nbsp;❤️
+            </h2>
+
+            <!-- Roblox Scene SVG -->
             <div class="roblox-viewport">
-                <!-- HTML Speech Bubble for perfect mobile readability -->
-                <div class="roblox-speech-bubble-html">
-                    <span class="bubble-line-1">We met in Roblox... 🎮</span>
-                    <span class="bubble-line-2">And now we're here! Happy Birthday! ❤️</span>
+
+                <!-- Scene label strip above SVG -->
+                <div class="roblox-scene-label">
+                    <span class="roblox-scene-label-dot"></span>
+                    <span>Roblox World from· 2025</span>
+                    <span class="roblox-scene-label-dot"></span>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" class="roblox-svg">
-                    <!-- Definitions for Patterns and Filters -->
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" class="roblox-svg">
                     <defs>
-                        <!-- Checkerboard Grass Pattern for Roblox Baseplate -->
-                        <pattern id="roblox-grass-checkers" width="40" height="20" patternUnits="userSpaceOnUse">
-                            <rect width="20" height="10" fill="#4ca64c" />
-                            <rect x="20" width="20" height="10" fill="#429642" />
-                            <rect y="10" width="20" height="10" fill="#429642" />
-                            <rect x="20" y="10" width="20" height="10" fill="#4ca64c" />
-                        </pattern>
-                        <!-- Sparkle Filter for the Proposing Ring -->
-                        <filter id="glow-effect" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="3" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        <!-- Sky gradient -->
+                        <linearGradient id="sky-grad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#1a0533"/>
+                            <stop offset="100%" stop-color="#2d0b54"/>
+                        </linearGradient>
+                        <!-- Ground gradient -->
+                        <linearGradient id="ground-grad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#3a8c3a"/>
+                            <stop offset="100%" stop-color="#1e5c1e"/>
+                        </linearGradient>
+                        <!-- Glow filter -->
+                        <filter id="glow-effect" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur stdDeviation="4" result="blur"/>
+                            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                         </filter>
+                        <!-- Soft pink glow -->
+                        <filter id="pink-glow" x="-40%" y="-40%" width="180%" height="180%">
+                            <feGaussianBlur stdDeviation="6" result="blur"/>
+                            <feFlood flood-color="#ff3366" flood-opacity="0.4" result="color"/>
+                            <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+                            <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+                        </filter>
+                        <!-- Checkerboard ground tiles -->
+                        <pattern id="grass-tile" width="40" height="20" patternUnits="userSpaceOnUse">
+                            <rect width="20" height="10" fill="#4db34d"/>
+                            <rect x="20" width="20" height="10" fill="#45a845"/>
+                            <rect y="10" width="20" height="10" fill="#45a845"/>
+                            <rect x="20" y="10" width="20" height="10" fill="#4db34d"/>
+                        </pattern>
                     </defs>
-                    
-                    <!-- Floating Roblox Baseplate -->
-                    <g class="roblox-baseplate">
-                        <!-- Studs / Grid Top Layer (classic Roblox look) -->
-                        <rect x="100" y="190" width="600" height="15" fill="url(#roblox-grass-checkers)" rx="4" />
-                        <rect x="100" y="200" width="600" height="15" fill="#855e42" rx="4" /> <!-- Brown dirt block layer -->
-                        <line x1="100" y1="200" x2="700" y2="200" stroke="#381d0d" stroke-width="1.5" />
-                    </g>
-                    
-                    <!-- ROBLOX BOY CHARACTER (Vijay) -->
-                    <g id="roblox-boy" class="roblox-char">
-                        <!-- Shadow -->
-                        <ellipse cx="0" cy="190" rx="20" ry="5" fill="rgba(0,0,0,0.25)" />
-                        
-                        <!-- Left Leg -->
-                        <rect class="limb boy-left-leg" x="-16" y="5" width="14" height="30" fill="#228b22" rx="1" />
-                        
-                        <!-- Right Leg -->
-                        <rect class="limb boy-right-leg" x="2" y="5" width="14" height="30" fill="#228b22" rx="1" />
-                        
-                        <!-- Torso -->
-                        <rect class="boy-torso" x="-18" y="-35" width="36" height="42" fill="#1e90ff" rx="2" />
-                        <!-- White Tie / Decal on shirt -->
-                        <polygon points="-4,-35 4,-35 6,-25 0,-15 -6,-25" fill="#ffffff" />
-                        <circle cx="0" cy="-28" r="2" fill="#ff4500" />
-                        
-                        <!-- Left Arm -->
-                        <rect class="limb boy-left-arm" x="-32" y="-35" width="12" height="36" fill="#1e90ff" rx="1" />
-                        
-                        <!-- Right Arm (will hold flowers and raise) -->
-                        <g class="limb boy-right-arm-group">
-                            <rect class="boy-right-arm" x="20" y="-35" width="12" height="36" fill="#1e90ff" rx="1" />
-                            
-                            <!-- Flower bouquet held by right hand -->
-                            <g class="roblox-flowers">
-                                <!-- Stems -->
-                                <line x1="26" y1="1" x2="26" y2="15" stroke="#228b22" stroke-width="2.5" />
-                                <line x1="21" y1="3" x2="26" y2="15" stroke="#228b22" stroke-width="2.5" />
-                                <line x1="31" y1="3" x2="26" y2="15" stroke="#228b22" stroke-width="2.5" />
-                                <!-- Red Roses (Blocky circles) -->
-                                <rect x="22" y="-5" width="8" height="8" fill="#ff3366" rx="2" />
-                                <rect x="16" y="-1" width="8" height="8" fill="#e01b5d" rx="2" />
-                                <rect x="28" y="-1" width="8" height="8" fill="#ff5e84" rx="2" />
-                                <!-- Ribbon -->
-                                <polygon points="23,10 29,10 32,15 26,12 20,15" fill="#ffd60a" />
+
+                    <!-- Background sky -->
+                    <rect x="0" y="0" width="800" height="210" fill="url(#sky-grad)" rx="12"/>
+
+                    <!-- Pixel Stars in sky -->
+                    <rect x="120" y="25" width="3" height="3" fill="white" opacity="0.7"/>
+                    <rect x="200" y="15" width="2" height="2" fill="white" opacity="0.5"/>
+                    <rect x="340" y="30" width="3" height="3" fill="white" opacity="0.8"/>
+                    <rect x="500" y="18" width="2" height="2" fill="white" opacity="0.6"/>
+                    <rect x="620" y="35" width="3" height="3" fill="white" opacity="0.7"/>
+                    <rect x="700" y="12" width="2" height="2" fill="white" opacity="0.5"/>
+                    <rect x="160" y="50" width="2" height="2" fill="#ffd60a" opacity="0.9"/>
+                    <rect x="450" y="45" width="2" height="2" fill="#ffd60a" opacity="0.7"/>
+                    <rect x="680" y="55" width="2" height="2" fill="#ffd60a" opacity="0.8"/>
+
+                    <!-- Pixel Moon (top-right) -->
+                    <rect x="680" y="20" width="20" height="20" fill="#fff8c0" rx="2"/>
+                    <rect x="688" y="20" width="12" height="12" fill="#2d0b54"/>
+
+                    <!-- Background pixel trees -->
+                    <!-- Tree 1 (left) -->
+                    <rect x="130" y="130" width="10" height="40" fill="#5c3d1e"/>
+                    <rect x="110" y="100" width="50" height="50" fill="#2a7a2a" rx="4"/>
+                    <rect x="118" y="90" width="34" height="20" fill="#349134" rx="3"/>
+                    <!-- Tree 2 (right) -->
+                    <rect x="660" y="130" width="10" height="40" fill="#5c3d1e"/>
+                    <rect x="640" y="100" width="50" height="50" fill="#2a7a2a" rx="4"/>
+                    <rect x="648" y="90" width="34" height="20" fill="#349134" rx="3"/>
+
+                    <!-- Ground / Baseplate -->
+                    <rect x="80" y="205" width="640" height="22" fill="url(#grass-tile)" rx="6"/>
+                    <rect x="80" y="218" width="640" height="16" fill="#8B6340" rx="4"/>
+                    <rect x="80" y="218" width="640" height="3" fill="#5c3d1e"/>
+
+                    <!-- Roblox logo badge (pixel style) -->
+                    <rect x="356" y="24" width="88" height="28" fill="#cc0000" rx="4"/>
+                    <text x="400" y="43" text-anchor="middle" font-family="monospace" font-size="14" font-weight="bold" fill="white">ROBLOX</text>
+
+                    <!-- ===================== BOY CHARACTER (Vijay) ===================== -->
+                    <g transform="translate(0, 165)">
+                        <g id="roblox-boy" class="roblox-char">
+                            <!-- Character shadow -->
+                            <ellipse cx="0" cy="39" rx="22" ry="6" fill="rgba(0,0,0,0.3)"/>
+
+                            <!-- Legs -->
+                            <rect class="limb boy-left-leg"  x="-16" y="5"  width="14" height="32" fill="#1a6b1a" rx="2"/>
+                            <rect class="limb boy-right-leg" x="2"   y="5"  width="14" height="32" fill="#1a6b1a" rx="2"/>
+                            <!-- Shoes -->
+                            <rect x="-18" y="32" width="16" height="8" fill="#222" rx="2"/>
+                            <rect x="0"   y="32" width="16" height="8" fill="#222" rx="2"/>
+
+                            <!-- Torso -->
+                            <rect class="boy-torso" x="-20" y="-38" width="40" height="45" fill="#1565c0" rx="3"/>
+                            <!-- Shirt detail: collar -->
+                            <polygon points="-5,-38 5,-38 7,-26 0,-18 -7,-26" fill="white"/>
+                            <circle cx="0" cy="-30" r="2.5" fill="#e53935"/>
+                            <!-- Shirt pocket -->
+                            <rect x="-16" y="-30" width="10" height="8" fill="rgba(255,255,255,0.12)" rx="1"/>
+
+                            <!-- Left Arm -->
+                            <rect class="limb boy-left-arm" x="-34" y="-38" width="13" height="38" fill="#1565c0" rx="2"/>
+                            <!-- Right Arm group (raises to offer flowers) -->
+                            <g class="limb boy-right-arm-group">
+                                <rect class="boy-right-arm" x="21" y="-38" width="13" height="38" fill="#1565c0" rx="2"/>
+                                <!-- Bouquet of roses -->
+                                <g class="roblox-flowers">
+                                    <line x1="28" y1="0"  x2="28" y2="16" stroke="#2e7d32" stroke-width="3"/>
+                                    <line x1="22" y1="4"  x2="28" y2="16" stroke="#2e7d32" stroke-width="2.5"/>
+                                    <line x1="34" y1="4"  x2="28" y2="16" stroke="#2e7d32" stroke-width="2.5"/>
+                                    <!-- Roses -->
+                                    <rect x="23"  y="-8"  width="10" height="10" fill="#e53935" rx="3"/>
+                                    <rect x="16"  y="-3"  width="10" height="10" fill="#c62828" rx="3"/>
+                                    <rect x="30"  y="-3"  width="10" height="10" fill="#ef5350" rx="3"/>
+                                    <!-- Shine on petals -->
+                                    <circle cx="27" cy="-4" r="2" fill="rgba(255,255,255,0.3)"/>
+                                    <!-- Ribbon -->
+                                    <polygon points="24,12 32,12 35,18 28,14 21,18" fill="#ffd600"/>
+                                </g>
+                            </g>
+
+                            <!-- Head -->
+                            <rect class="boy-head" x="-15" y="-66" width="30" height="30" fill="#ffcc99" rx="3"/>
+                            <!-- Hair (blocky spiky dark brown) -->
+                            <path class="boy-hair" d="M-17,-68 L17,-68 L17,-56 L13,-56 L13,-50 L8,-50 L8,-60 L-8,-60 L-8,-50 L-13,-50 L-13,-56 L-17,-56 Z" fill="#4a2c0a"/>
+                            <!-- Face -->
+                            <g class="boy-face">
+                                <rect x="-8"  y="-57" width="5" height="5" fill="#222" rx="1"/>
+                                <rect x="3"   y="-57" width="5" height="5" fill="#222" rx="1"/>
+                                <circle cx="-5.5" cy="-55" r="1.2" fill="white"/>
+                                <circle cx="5.5"  cy="-55" r="1.2" fill="white"/>
+                                <path d="M-7,-46 Q 0,-40 7,-46" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            </g>
+                            <!-- Name tag above head -->
+                            <rect x="-35" y="-92" width="70" height="20" fill="rgba(8, 3, 20, 0.85)" stroke="#1565c0" stroke-width="1.5" rx="6"/>
+                            <text x="0" y="-78" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="11" font-weight="bold" fill="white">Vijay</text>
+
+                            <!-- Ring (proposing, left hand) -->
+                            <g class="propose-ring">
+                                <circle cx="-28" cy="14" r="7" stroke="#ffd600" stroke-width="2.5" fill="rgba(255,214,0,0.1)" filter="url(#glow-effect)"/>
+                                <rect x="-31" y="5" width="6" height="6" fill="#81d4fa" transform="rotate(45 -28 8)"/>
                             </g>
                         </g>
-                        
-                        <!-- Head Block -->
-                        <rect class="boy-head" x="-13" y="-62" width="26" height="26" fill="#ffd3b6" rx="2" />
-                        
-                        <!-- Boy Hair (Blocky cool brown hair) -->
-                        <path class="boy-hair" d="M-15,-64 L15,-64 L15,-54 L11,-54 L11,-48 L7,-48 L7,-58 L-7,-58 L-7,-48 L-11,-48 L-11,-54 L-15,-54 Z" fill="#5c3d2e" />
-                        
-                        <!-- Face (Classic Roblox Smile) -->
-                        <g class="boy-face">
-                            <!-- Eyes (Squares) -->
-                            <rect x="-7" y="-53" width="4" height="4" fill="#111111" />
-                            <rect x="3" y="-53" width="4" height="4" fill="#111111" />
-                            <!-- Smile -->
-                            <path d="M -7 -44 Q 0 -38 7 -44" stroke="#111111" stroke-width="2.5" fill="none" stroke-linecap="round" />
-                        </g>
-                        
-                        <!-- Proposing Ring (Left hand / floats) -->
-                        <g class="propose-ring">
-                            <circle cx="-26" cy="12" r="6" stroke="#ffd60a" stroke-width="2" fill="none" filter="url(#glow-effect)" />
-                            <rect x="-28" y="4" width="4" height="4" fill="#a4e2fc" transform="rotate(45 -26 6)" />
+                    </g>
+
+                    <!-- ===================== GIRL CHARACTER (Amritha) ===================== -->
+                    <g transform="translate(0, 165)">
+                        <g id="roblox-girl" class="roblox-char">
+                            <ellipse cx="0" cy="39" rx="22" ry="6" fill="rgba(0,0,0,0.3)"/>
+
+                            <!-- Legs (skirt covers, so shorter) -->
+                            <rect class="limb girl-left-leg"  x="-15" y="5"  width="13" height="28" fill="#6a1b9a" rx="2"/>
+                            <rect class="limb girl-right-leg" x="2"   y="5"  width="13" height="28" fill="#6a1b9a" rx="2"/>
+                            <!-- Shoes (heels) -->
+                            <rect x="-17" y="28" width="15" height="9" fill="#ad1457" rx="2"/>
+                            <rect x="1"   y="28" width="15" height="9" fill="#ad1457" rx="2"/>
+
+                            <!-- Torso / Dress top -->
+                            <rect class="girl-torso" x="-20" y="-38" width="40" height="45" fill="#e91e8c" rx="3"/>
+                            <!-- Dress skirt flare -->
+                            <polygon points="-24,7 24,7 30,37 -30,37" fill="#e91e8c"/>
+                            <!-- Heart on dress -->
+                            <path d="M-5,-24 C-9,-28 -9,-20 -5,-16 L0,-12 L5,-16 C9,-20 9,-28 5,-24 Z" fill="white"/>
+
+                            <!-- Arms -->
+                            <rect class="limb girl-left-arm"  x="-35" y="-38" width="13" height="36" fill="#e91e8c" rx="2"/>
+                            <rect class="limb girl-right-arm" x="22"  y="-38" width="13" height="36" fill="#e91e8c" rx="2"/>
+
+                            <!-- Back hair -->
+                            <g class="girl-hair girl-back-hair">
+                                <rect x="-18" y="-68" width="36" height="24" fill="#3e1f00" rx="5"/>
+                                <rect x="-18" y="-50" width="7" height="40" fill="#3e1f00" rx="4"/>
+                                <rect x="11"  y="-50" width="7" height="40" fill="#3e1f00" rx="4"/>
+                            </g>
+
+                            <!-- Head -->
+                            <rect class="girl-head" x="-14" y="-66" width="28" height="28" fill="#ffcc99" rx="4"/>
+
+                            <!-- Front hair & bow -->
+                            <g class="girl-hair girl-front-hair">
+                                <!-- Bow -->
+                                <rect x="-6" y="-72" width="12" height="6" fill="#fdd835" rx="2"/>
+                                <polygon points="-11,-76 -4,-72 -11,-68" fill="#e91e8c"/>
+                                <polygon points="11,-76  4,-72  11,-68" fill="#e91e8c"/>
+                                <circle cx="0" cy="-72" r="3" fill="#fdd835"/>
+                                <!-- Bangs -->
+                                <polygon points="-14,-62 -6,-62 -10,-56 -14,-56" fill="#3e1f00"/>
+                                <polygon points="14,-62  6,-62  10,-56  14,-56" fill="#3e1f00"/>
+                                <rect   x="-14" y="-66" width="28" height="6" fill="#3e1f00" rx="2"/>
+                            </g>
+
+                            <!-- Face -->
+                            <g class="girl-face">
+                                <ellipse cx="-5" cy="-53" rx="3"   ry="4"   fill="#222"/>
+                                <circle  cx="-4" cy="-55" r="1.1" fill="white"/>
+                                <ellipse cx="5"  cy="-53" rx="3"   ry="4"   fill="#222"/>
+                                <circle  cx="6"  cy="-55" r="1.1" fill="white"/>
+                                <!-- Blush -->
+                                <rect class="girl-blush" x="-12" y="-49" width="6" height="4" fill="#ff80ab" rx="2"/>
+                                <rect class="girl-blush" x="6"   y="-49" width="6" height="4" fill="#ff80ab" rx="2"/>
+                                <!-- Smile -->
+                                <path d="M-7,-44 C-3,-40 3,-40 7,-44" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            </g>
+
+                            <!-- Name tag -->
+                            <rect x="-35" y="-92" width="70" height="20" fill="rgba(8, 3, 20, 0.85)" stroke="#e91e8c" stroke-width="1.5" rx="6"/>
+                            <text x="0" y="-78" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="11" font-weight="bold" fill="white">ahtirmA</text>
                         </g>
                     </g>
-                    
-                    <!-- ROBLOX GIRL CHARACTER (Amritha) -->
-                    <g id="roblox-girl" class="roblox-char">
-                        <!-- Shadow -->
-                        <ellipse cx="0" cy="190" rx="20" ry="5" fill="rgba(0,0,0,0.25)" />
-                        
-                        <!-- Left Leg -->
-                        <rect class="limb girl-left-leg" x="-16" y="5" width="14" height="30" fill="#800080" rx="1" />
-                        
-                        <!-- Right Leg -->
-                        <rect class="limb girl-right-leg" x="2" y="5" width="14" height="30" fill="#800080" rx="1" />
-                        
-                        <!-- Torso -->
-                        <rect class="girl-torso" x="-18" y="-35" width="36" height="42" fill="#ff69b4" rx="2" />
-                        <!-- White Heart Logo on shirt -->
-                        <path d="M-4,-23 C-7,-26 -7,-20 -4,-17 L0,-13 L4,-17 C7,-20 7,-26 4,-23 Z" fill="#ffffff" />
-                        
-                        <!-- Left Arm -->
-                        <rect class="limb girl-left-arm" x="-32" y="-35" width="12" height="36" fill="#ff69b4" rx="1" />
-                        
-                        <!-- Right Arm -->
-                        <rect class="limb girl-right-arm" x="20" y="-35" width="12" height="36" fill="#ff69b4" rx="1" />
-                        
-                        <!-- Head Block -->
-                        <rect class="girl-head" x="-13" y="-62" width="26" height="26" fill="#ffd3b6" rx="2" />
-                        
-                        <!-- Girl Hair (Long cute brown hair with bangs) -->
-                        <g class="girl-hair">
-                            <!-- Top/Back Hair -->
-                            <rect x="-16" y="-66" width="32" height="22" fill="#4a2c11" rx="3" />
-                            <!-- Sides hanging down -->
-                            <rect x="-16" y="-48" width="6" height="36" fill="#4a2c11" rx="2" />
-                            <rect x="10" y="-48" width="6" height="36" fill="#4a2c11" rx="2" />
-                            <!-- Bangs -->
-                            <polygon points="-13,-56 -5,-56 -3,-51 -7,-48 -13,-48" fill="#4a2c11" />
-                            <polygon points="13,-56 5,-56 3,-51 7,-48 13,-48" fill="#4a2c11" />
-                            <!-- Cute Bow on hair -->
-                            <rect x="-5" y="-67" width="10" height="5" fill="#ffd60a" rx="1" />
-                            <polygon points="-9,-70 -3,-67 -9,-64" fill="#ff3366" />
-                            <polygon points="9,-70 3,-67 9,-64" fill="#ff3366" />
-                        </g>
-                        
-                        <!-- Face (Roblox Super Happy / Blushing Face) -->
-                        <g class="girl-face">
-                            <!-- Eyes -->
-                            <rect x="-7" y="-53" width="4" height="4" fill="#111111" />
-                            <rect x="3" y="-53" width="4" height="4" fill="#111111" />
-                            <!-- Cute Blushing Cheeks -->
-                            <rect class="girl-blush" x="-11" y="-47" width="5" height="3" fill="#ff8093" rx="1" />
-                            <rect class="girl-blush" x="6" y="-47" width="5" height="3" fill="#ff8093" rx="1" />
-                            <!-- Big Happy Smile -->
-                            <path d="M-6,-44 C-3,-41 3,-41 6,-44" stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round" />
-                        </g>
-                    </g>
-                    
-                    <!-- Shared Proposal Speech Bubble removed to HTML layer for responsiveness -->
-                    
-                    <!-- Giant Love Heart Floating between them -->
-                    <g class="roblox-love-heart">
-                        <!-- Square/Blocky Roblox-Style Heart -->
-                        <path d="M 400 110 L 415 95 L 430 95 L 430 110 L 415 125 L 400 140 L 385 125 L 370 110 L 370 95 L 385 95 Z" fill="#ff3366" stroke="#ffffff" stroke-width="1.5" filter="url(#glow-effect)" />
+
+                    <!-- Floating Love Heart between characters -->
+                    <g class="roblox-love-heart" filter="url(#pink-glow)">
+                        <path d="M 400 132 L 418 114 L 436 114 L 436 132 L 418 150 L 400 168 L 382 150 L 364 132 L 364 114 L 382 114 Z" fill="#ff3366" stroke="white" stroke-width="2"/>
                     </g>
                 </svg>
-                
-                <!-- Floating Roblox Emoji Hearts (Dom elements for independent random animation) -->
+
+                <!-- Floating Emoji Hearts layer -->
                 <div class="roblox-floating-hearts-layer">
                     <span class="roblox-heart rh1">💖</span>
                     <span class="roblox-heart rh2">💘</span>
@@ -306,7 +371,7 @@
         <!-- App Header -->
         <header class="app-header">
             <h3 class="headline-quote">"Amritha, you are the best thing that has ever been mine."</h3>
-            <h1 class="birthday-title">HAPPY BIRTHDAY MY THANGAM, AMRITHA!</h1>
+            <h1 class="birthday-title"> MY THANGAM,AMRITHA!</h1>
             <p class="birthday-subtitle">Here is a little magic space made just for you ✨</p>
         </header>
 
@@ -322,8 +387,8 @@
                         </div>
                     </div>
                     <div class="track-meta">
-                        <h4 class="track-title" id="track-title">Melody for My Girl</h4>
-                        <p class="track-artist" id="track-artist">Virtual Music Box 🎵</p>
+                        <h4 class="track-title" id="track-title">Mudhal Nee Mudivum Nee</h4>
+                        <p class="track-artist" id="track-artist">💕 For Amritha</p>
                     </div>
                 </div>
 
@@ -335,26 +400,48 @@
                         </div>
                         <div class="time-stamps">
                             <span id="current-time">0:00</span>
-                            <span id="total-time">3:00</span>
+                            <span id="total-time">0:00</span>
                         </div>
                     </div>
 
                     <!-- Control Buttons -->
                     <div class="player-buttons">
-                        <button class="btn-circle btn-prev" id="prev-btn" aria-label="Previous Track">◀◀</button>
+                        <button class="btn-circle btn-prev" id="prev-btn" aria-label="Previous Track">⏮</button>
                         <button class="btn-circle btn-play" id="play-btn" aria-label="Play Music">▶</button>
-                        <button class="btn-circle btn-next" id="next-btn" aria-label="Next Track">▶▶</button>
+                        <button class="btn-circle btn-next" id="next-btn" aria-label="Next Track">⏭</button>
                         <button class="btn-circle btn-mute" id="mute-btn" aria-label="Mute Music">🔊</button>
                     </div>
 
+                    <!-- Song list indicator -->
+                    <div class="track-indicator">
+                        <span class="track-dot active" data-index="0"></span>
+                        <span class="track-dot" data-index="1"></span>
+                    </div>
+
                     <!-- Simulated Visualizer Bars -->
-                    <div class="visualizer-container" id="visualizer-bars">
-                        <!-- Bars dynamically loaded by JS -->
+                    <div class="visualizer-container" id="visualizer-bars"></div>
+
+                    <!-- Playlist Selector Menu -->
+                    <div class="playlist-menu">
+                        <div class="playlist-item active" data-index="0">
+                            <span class="playlist-status-icon">▶</span>
+                            <div class="playlist-details">
+                                <span class="playlist-title">Mudhal Nee Mudivum Nee</span>
+                                <span class="playlist-artist">💕 For Amritha</span>
+                            </div>
+                        </div>
+                        <div class="playlist-item" data-index="1">
+                            <span class="playlist-status-icon">🎵</span>
+                            <div class="playlist-details">
+                                <span class="playlist-title">Happy Birthday</span>
+                                <span class="playlist-artist">✨ Birthday Melody</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Hidden HTML Audio Element for custom mp3 uploads -->
-                <audio id="bg-music" src="assets/mudhal_nee.mp3" preload="auto" loop></audio>
+                <!-- Audio element with default source -->
+                <audio id="bg-music" src="assets/mudhal_nee.mp3" preload="auto"></audio>
             </section>
 
             <!-- 2. Interactive Birthday Cake Card -->
@@ -362,42 +449,21 @@
                 <h4 class="cake-instruction" id="cake-instruction">Tap the candles to blow them out! 💨</h4>
                 
                 <div class="cake-scene" id="cake-scene">
-                    <!-- Cake Stand -->
                     <div class="cake-stand"></div>
-                    
-                    <!-- Cake Bottom Tier -->
                     <div class="cake-tier">
-                        <!-- Cream Drips -->
                         <div class="drip-container">
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
-                            <div class="drip"></div>
+                            <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+                            <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+                            <div class="drip"></div><div class="drip"></div><div class="drip"></div>
                             <div class="drip"></div>
                         </div>
                         <div class="cake-frosting"></div>
                         <div class="cake-name">Amritha</div>
                     </div>
-                    
-                    <!-- 3 Candles -->
                     <div class="candle-container">
-                        <div class="candle">
-                            <div class="wick"></div>
-                            <div class="flame"></div>
-                        </div>
-                        <div class="candle">
-                            <div class="wick"></div>
-                            <div class="flame"></div>
-                        </div>
-                        <div class="candle">
-                            <div class="wick"></div>
-                            <div class="flame"></div>
-                        </div>
+                        <div class="candle"><div class="wick"></div><div class="flame"></div></div>
+                        <div class="candle"><div class="wick"></div><div class="flame"></div></div>
+                        <div class="candle"><div class="wick"></div><div class="flame"></div></div>
                     </div>
                 </div>
             </section>
@@ -413,7 +479,41 @@
                 <div class="signature">Yours Forever, Vijay ❤️</div>
             </section>
 
-            <!-- 4. Memory Lane 3D Deck -->
+            <!-- 4. Childhood Photo Section -->
+            <section class="childhood-photo-card glass-panel">
+                <div class="childhood-decor">📸</div>
+                <h3 class="childhood-title">MY BABY 🌸</h3>
+                <p class="childhood-subtitle">A little glimpse of the girl who would one day change everything for me</p>
+
+                <div class="photo-frame-wrapper">
+                    <!-- Photo frame - user should place her childhood photo as assets/childhood.jpg -->
+                    <div class="photo-polaroid">
+                        <div class="photo-area" id="childhood-photo-area">
+                            <!-- If childhood.jpg exists in assets, it will show; otherwise shows placeholder -->
+                            <img 
+                                src="assets/amritha.jpg" 
+                                alt="Amritha's photo" 
+                                class="childhood-img"
+                                onerror="this.style.display='none'; document.getElementById('photo-placeholder').style.display='flex';"
+                            />
+                            <div class="photo-placeholder" id="photo-placeholder">
+                                <div class="placeholder-icon">🌷</div>
+                                <p class="placeholder-text">Add <code>amritha.jpg</code> to the <code>assets/</code> folder to show her photo here 💕</p>
+                            </div>
+                        </div>
+                        <div class="polaroid-caption">Amritha ✨</div>
+                    </div>
+                    <!-- Sparkles around frame -->
+                    <span class="frame-sparkle fs1">✨</span>
+                    <span class="frame-sparkle fs2">💖</span>
+                    <span class="frame-sparkle fs3">🌟</span>
+                    <span class="frame-sparkle fs4">✨</span>
+                </div>
+
+                <p class="childhood-caption">"The most precious girl who grew into the most beautiful woman" 🌹</p>
+            </section>
+
+            <!-- 5. Memory Lane 3D Deck -->
             <section class="memories-section">
                 <h3 class="memories-title">Our Little Memory Lane (Tap to flip)</h3>
                 
@@ -421,26 +521,32 @@
                     <!-- Card 1 -->
                     <div class="memory-card">
                         <div class="memory-card-side memory-card-front">
-                            <div class="card-icon">✨</div>
+                            <div class="card-icon">
+                                <!-- SVG Gamepad icon instead of unclear emoji -->
+                                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="56" height="56">
+                                    <rect width="48" height="48" rx="12" fill="rgba(255,51,102,0.12)"/>
+                                    <path d="M14 18a8 8 0 0 0-8 8v4a8 8 0 0 0 8 8h20a8 8 0 0 0 8-8v-4a8 8 0 0 0-8-8H14Zm3 4v3h-3a1.5 1.5 0 0 0 0 3h3v3a1.5 1.5 0 0 0 3 0v-3h3a1.5 1.5 0 0 0 0-3h-3v-3a1.5 1.5 0 0 0-3 0Zm16.5 1.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm3 6a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" fill="#ff3366"/>
+                                </svg>
+                            </div>
                             <h4 class="card-title">How We Met</h4>
                             <p class="card-instruction">Tap to open</p>
                         </div>
                         <div class="memory-card-side memory-card-back">
-                            <h4 class="card-quote">"The Day Everything Changed"</h4>
-                            <p class="card-desc">The moment my eyes met yours, Amritha, I knew my life would never be the same. You instantly brightened my world, and my life has been a beautiful color gradient ever since. ❤️</p>
+                            <h4 class="card-quote">"We Met Unexpectedly in Roblox"</h4>
+                            <p class="card-desc">We met unexpectedly in a Roblox game, and we became friendly. From that playful virtual world, a beautiful connection grew that changed my life forever. ❤️</p>
                         </div>
                     </div>
 
                     <!-- Card 2 -->
                     <div class="memory-card">
                         <div class="memory-card-side memory-card-front">
-                            <div class="card-icon">👑</div>
+                            <div class="card-icon">📱</div>
                             <h4 class="card-title">My Favorite Thing</h4>
                             <p class="card-instruction">Tap to open</p>
                         </div>
                         <div class="memory-card-side memory-card-back">
-                            <h4 class="card-quote">"Amritha's Laugh"</h4>
-                            <p class="card-desc">Hearing you laugh is my absolute favorite sound in the universe. It makes all my worries melt away in an instant, Amritha. 🥰</p>
+                            <h4 class="card-quote">"Calls &amp; Texts"</h4>
+                            <p class="card-desc">My favorite thing is to talk to you through calls and messages like texts. Every conversation and notification from you makes my world so much brighter, Amritha. 💬❤️</p>
                         </div>
                     </div>
 
@@ -452,7 +558,7 @@
                             <p class="card-instruction">Tap to open</p>
                         </div>
                         <div class="memory-card-side memory-card-back">
-                            <h4 class="card-quote">"Always & Forever"</h4>
+                            <h4 class="card-quote">"Always &amp; Forever"</h4>
                             <p class="card-desc">I promise to support your dreams, comfort you on difficult days, and love you unconditionally through every chapter of our lives together, Amritha. 🌹</p>
                         </div>
                     </div>
@@ -461,9 +567,41 @@
 
         </div>
 
+        <!-- Do You Love Me? Funny Card -->
+        <section class="love-test-card glass-panel" aria-label="Love Test Game" style="margin-top: 30px; margin-bottom: 30px;">
+            <div class="love-test-decor">👉👈</div>
+            <h3 class="love-test-title">DO YOU LOVE ME? 💖</h3>
+            
+            <!-- Game View -->
+            <div class="love-test-game-wrapper" id="love-game-wrapper">
+                <div class="love-test-avatar-container">
+                    <span class="love-test-avatar" id="love-avatar">🥺</span>
+                </div>
+                <div class="love-test-bubble" id="love-bubble">
+                    Amritha, do you love me? Yes or No?
+                </div>
+                <div class="love-test-buttons-area" id="love-buttons-area">
+                    <button class="btn-love btn-love-yes" id="btn-love-yes">Yes</button>
+                    <button class="btn-love btn-love-no" id="btn-love-no">No</button>
+                </div>
+            </div>
+
+            <!-- Success Reply View -->
+            <div class="love-success-display" id="love-success-display">
+                <div class="success-heart-ring">👑💖😍</div>
+                <h3 class="love-success-quote" id="love-success-quote">
+                    "If I had a flower for every time I thought of you... I could walk through my garden forever."
+                </h3>
+                <p class="love-success-desc">
+                    I knew it, my gorgeous girl! My heart is completely yours, Amritha, today and every single day! 💕
+                </p>
+                <button class="btn-love-reset" id="btn-love-reset">Play Again 🔄</button>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="app-footer">
-            <p>Made with love <span class="footer-heart">❤️</span> for Amritha | Infinity & Beyond</p>
+            <p>Made with love <span class="footer-heart">❤️</span> for Amritha | Infinity &amp; Beyond</p>
         </footer>
 
     </main>
@@ -471,6 +609,6 @@
     <!-- Canvas Confetti Library via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Custom Page Script -->
-    <script src="script.js?v=10"></script>
+    <script src="script.js?v=13"></script>
 </body>
 </html>

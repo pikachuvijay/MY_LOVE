@@ -23,7 +23,8 @@ const LOVE_QUOTES = [
 // 3. Update the "title" and "artist" names to match your songs.
 // --------------------------------------------------------------------------
 const PLAYLIST = [
-    { title: "Mudhal Nee Mudivum Nee", artist: "💕 For Amritha", src: "assets/mudhal_nee.mp3", frequency: 261.63 }
+    { title: "Mudhal Nee Mudivum Nee", artist: "💕 For Amritha", src: "assets/mudhal_nee.mp3", frequency: 261.63 },
+    { title: "Happy Birthday", artist: "✨ Birthday Melody", src: "assets/happy_birthday.mp3", frequency: 293.66 }
 ];
 
 // State variables
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initInteractiveCanvasBackground();
     initLockAudioControls();
     initLockCakeInteractivity();
+    initLoveTestGame();
     
     // Sync initial UI elements (starts muted)
     updateAudioUI();
@@ -280,6 +282,32 @@ function updateAudioUI() {
         if (disc) disc.classList.remove('playing');
         if (lockIndicator) lockIndicator.classList.remove('playing');
     }
+
+    // 3. Sync Playlist Menu items & dots
+    const dots = document.querySelectorAll('.track-dot');
+    dots.forEach((dot, idx) => {
+        if (idx === currentTrackIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+
+    const playlistItems = document.querySelectorAll('.playlist-item');
+    playlistItems.forEach((item, idx) => {
+        const statusIcon = item.querySelector('.playlist-status-icon');
+        if (idx === currentTrackIndex) {
+            item.classList.add('active');
+            if (statusIcon) {
+                statusIcon.textContent = isPlaying ? '⏸' : '▶';
+            }
+        } else {
+            item.classList.remove('active');
+            if (statusIcon) {
+                statusIcon.textContent = '🎵';
+            }
+        }
+    });
 }
 
 function initLockAudioControls() {
@@ -399,22 +427,32 @@ function initMusicPlayer() {
         currentTimeText.textContent = '0:00';
         
         // Reset player durations
-        duration = 180; 
+        duration = audioTrack ? (audioTrack.duration || 180) : 180; 
         totalTimeText.textContent = formatTime(duration);
 
         if (audioTrack) {
-            const currentSrc = audioTrack.getAttribute('src');
-            if (currentSrc !== track.src) {
+            const wasPlaying = isPlaying;
+            // Only update the source if it is actually different
+            if (!audioTrack.src.endsWith(track.src)) {
+                audioTrack.pause();
                 audioTrack.src = track.src;
                 audioTrack.load();
                 
                 audioTrack.addEventListener('loadedmetadata', () => {
                     duration = audioTrack.duration;
                     totalTimeText.textContent = formatTime(duration);
+                    if (wasPlaying) {
+                        audioTrack.play().catch(err => console.log("Play failed on load:", err));
+                        isPlaying = true;
+                        updateAudioUI();
+                    }
                 }, { once: true });
             } else {
                 duration = audioTrack.duration || 180;
                 totalTimeText.textContent = formatTime(duration);
+                if (wasPlaying && audioTrack.paused) {
+                    audioTrack.play().catch(err => console.log("Play failed:", err));
+                }
             }
         }
     }
@@ -431,8 +469,13 @@ function initMusicPlayer() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
+            // Automatically unmute when play is pressed so user hears the music
+            isMuted = false;
+            audioTrack.muted = false;
+            
             audioTrack.play().then(() => {
                 isPlaying = true;
+                updateAudioUI();
             }).catch(err => console.log("Play failed:", err));
         }
         updateAudioUI();
@@ -453,10 +496,6 @@ function initMusicPlayer() {
         removeAutoplayTrigger(); // Disable autoplay trigger on manual interaction
         currentTrackIndex = (currentTrackIndex - 1 + PLAYLIST.length) % PLAYLIST.length;
         loadTrack(currentTrackIndex);
-        
-        if (isPlaying && audioTrack) {
-            audioTrack.play().catch(e => console.log(e));
-        }
         updateAudioUI();
         playSynthTone(330, 'triangle', 0.15); // button click feedback
     });
@@ -465,10 +504,6 @@ function initMusicPlayer() {
         removeAutoplayTrigger(); // Disable autoplay trigger on manual interaction
         currentTrackIndex = (currentTrackIndex + 1) % PLAYLIST.length;
         loadTrack(currentTrackIndex);
-        
-        if (isPlaying && audioTrack) {
-            audioTrack.play().catch(e => console.log(e));
-        }
         updateAudioUI();
         playSynthTone(440, 'triangle', 0.15); // button click feedback
     });
@@ -544,6 +579,42 @@ function initMusicPlayer() {
 
         requestAnimationFrame(drawVisualizer);
     }
+    // Hook up dots click
+    const dots = document.querySelectorAll('.track-dot');
+    dots.forEach((dot) => {
+        dot.addEventListener('click', (e) => {
+            const index = parseInt(e.currentTarget.getAttribute('data-index'));
+            if (index !== currentTrackIndex) {
+                currentTrackIndex = index;
+                loadTrack(currentTrackIndex);
+                if (!isPlaying) {
+                    togglePlay();
+                } else {
+                    updateAudioUI();
+                }
+            }
+        });
+    });
+
+    // Hook up playlist menu items click
+    const playlistItems = document.querySelectorAll('.playlist-item');
+    playlistItems.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            const index = parseInt(e.currentTarget.getAttribute('data-index'));
+            if (index === currentTrackIndex) {
+                togglePlay();
+            } else {
+                currentTrackIndex = index;
+                loadTrack(currentTrackIndex);
+                if (!isPlaying) {
+                    togglePlay();
+                } else {
+                    updateAudioUI();
+                }
+            }
+        });
+    });
+
     drawVisualizer();
 }
 
@@ -1093,5 +1164,167 @@ function animateTextReveal() {
             span.style.opacity = '1';
             span.style.transform = 'translateY(0) scale(1)';
         }, 50);
+    });
+}
+
+function initLoveTestGame() {
+    const btnYes = document.getElementById('btn-love-yes');
+    const btnNo = document.getElementById('btn-love-no');
+    const btnReset = document.getElementById('btn-love-reset');
+    const avatar = document.getElementById('love-avatar');
+    const bubble = document.getElementById('love-bubble');
+    const area = document.getElementById('love-buttons-area');
+    const gameWrapper = document.getElementById('love-game-wrapper');
+    const successDisplay = document.getElementById('love-success-display');
+    const successQuote = document.getElementById('love-success-quote');
+
+    if (!btnYes || !btnNo || !btnReset || !avatar || !bubble || !area || !gameWrapper || !successDisplay) return;
+
+    let noCount = 0;
+    
+    // Quotes database when she clicks Yes
+    const YES_QUOTES = [
+        "\"If I had a flower for every time I thought of you... I could walk through my garden forever.\" 🌸",
+        "\"My heart is and always will be yours, Amritha.\" 💖",
+        "\"I love you not only for what you are, but for what I am when I am with you, Amritha.\" 💕",
+        "\"You are the finest, loveliest, tenderest, and most beautiful person I have ever known.\" 👑",
+        "\"Every cell of my body loves you, Amritha. You are my home and my adventure.\" 🌹",
+        "\"You are my today and all of my tomorrows, my beautiful Amritha.\" ✨"
+    ];
+
+    const STAGES = [
+        { avatar: "🥺", bubble: "Amritha, do you love me? Yes or No?" },
+        { avatar: "🤨", bubble: "Wait... what? You moved towards No? 🧐" },
+        { avatar: "👀", bubble: "Are you sure? Try again! 🤨" },
+        { avatar: "😭", bubble: "No is not an option! Please choose Yes! 🥺" },
+        { avatar: "😡", bubble: "Wrong answer! I'm getting angry now... 😤" },
+        { avatar: "😤", bubble: "GRRR! You're doing it on purpose! 🤬" },
+        { avatar: "🤬", bubble: "That's it! Look how big YES is now! 😈" },
+        { avatar: "😈", bubble: "Just click YES! There is no escape! 😂" }
+    ];
+
+    function setupButtons() {
+        btnYes.style.position = 'absolute';
+        btnYes.style.left = 'calc(50% - 70px)';
+        btnYes.style.top = '60px';
+        btnYes.style.transform = 'translate(-50%, -50%) scale(1)';
+
+        btnNo.style.position = 'absolute';
+        btnNo.style.left = 'calc(50% + 70px)';
+        btnNo.style.top = '60px';
+        btnNo.style.transform = 'translate(-50%, -50%) scale(1)';
+        
+        avatar.className = 'love-test-avatar';
+        avatar.textContent = STAGES[0].avatar;
+        bubble.textContent = STAGES[0].bubble;
+        noCount = 0;
+        
+        gameWrapper.style.display = 'flex';
+        successDisplay.style.display = 'none';
+    }
+
+    setupButtons();
+
+    function moveNoButton() {
+        noCount++;
+        
+        // Update avatar and bubble text based on current count
+        const stageIndex = Math.min(noCount, STAGES.length - 1);
+        const stage = STAGES[stageIndex];
+        
+        avatar.textContent = stage.avatar;
+        bubble.textContent = stage.bubble;
+        
+        // Trigger avatar animations
+        avatar.classList.remove('shake', 'angry-pulse');
+        void avatar.offsetWidth; // trigger reflow
+        
+        if (noCount >= 4) {
+            avatar.classList.add('angry-pulse');
+        } else {
+            avatar.classList.add('shake');
+        }
+        
+        // Play synth warning sound
+        playSynthTone(300 - noCount * 20, 'sawtooth', 0.15);
+
+        // Scale Yes Button and No Button
+        let yesScale = 1 + noCount * 0.4;
+        const isMobile = window.innerWidth <= 480;
+        const maxYesScale = isMobile ? 2.0 : 4.0;
+        if (yesScale > maxYesScale) {
+            yesScale = maxYesScale;
+        }
+        const noScale = Math.max(0.3, 1 - noCount * 0.1);
+        
+        btnYes.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
+        btnNo.style.transform = `translate(-50%, -50%) scale(${noScale})`;
+        
+        // Relocate No button
+        const areaWidth = area.clientWidth;
+        const areaHeight = area.clientHeight;
+        const btnWidth = btnNo.offsetWidth;
+        const btnHeight = btnNo.offsetHeight;
+        
+        const maxX = areaWidth - btnWidth - 20;
+        const maxY = areaHeight - btnHeight - 20;
+        
+        // Calculate random coordinates inside area bounds
+        let randomX = Math.random() * maxX + btnWidth / 2;
+        let randomY = Math.random() * maxY + btnHeight / 2;
+        
+        // Keep it offset from center (where YES button is expanding)
+        if (Math.abs(randomX - areaWidth/2) < 80 && Math.abs(randomY - areaHeight/2) < 40) {
+            randomX = (randomX + 150) % maxX;
+            randomY = (randomY + 60) % maxY;
+        }
+
+        btnNo.style.left = `${randomX}px`;
+        btnNo.style.top = `${randomY}px`;
+        
+        // Add moving transition class to make it smooth but escape quickly
+        btnNo.classList.add('moving');
+        setTimeout(() => btnNo.classList.remove('moving'), 150);
+    }
+
+    // Capture both hover and touchstart events to escape
+    btnNo.addEventListener('mouseover', moveNoButton);
+    btnNo.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        moveNoButton();
+    });
+
+    btnYes.addEventListener('click', () => {
+        // Trigger confetti
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+            setTimeout(() => {
+                confetti({ particleCount: 80, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 80, angle: 120, spread: 55, origin: { x: 1 } });
+            }, 300);
+        }
+
+        // Chime sound chord
+        playSynthTone(523.25, 'sine', 0.5); // C5
+        setTimeout(() => playSynthTone(659.25, 'sine', 0.5), 100); // E5
+        setTimeout(() => playSynthTone(783.99, 'sine', 0.5), 200); // G5
+        setTimeout(() => playSynthTone(1046.50, 'sine', 0.8), 300); // C6
+
+        // Set random quote
+        const randomQuote = YES_QUOTES[Math.floor(Math.random() * YES_QUOTES.length)];
+        successQuote.textContent = randomQuote;
+
+        // Switch screens
+        gameWrapper.style.display = 'none';
+        successDisplay.style.display = 'flex';
+    });
+
+    btnReset.addEventListener('click', () => {
+        setupButtons();
+        playSynthTone(440, 'triangle', 0.15); // reset chord
     });
 }
